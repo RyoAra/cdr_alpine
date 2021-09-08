@@ -1,0 +1,1 @@
+docker build -f "./codeserver/dockerfile" -t alpine/codeserver .
