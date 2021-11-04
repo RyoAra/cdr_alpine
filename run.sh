@@ -1,8 +1,9 @@
-echo $1
-mkdir ./projects/$1
+#!/bin/bash
 
-# 空きポート探し
-# 参考:https://qiita.com/KEINOS/items/98a5ce4415b3691a0d22
+user=$1
+echo $user
+mkdir ./projects/$user
+
 function getPortUsed() {
     # この取得処理が一番重いので変数に入れて使い回すために用意
     echo `lsof -i -P | grep -i "tcp" | sed 's/\[.*\]/IP/' \
@@ -54,9 +55,10 @@ function getPortRandom() {
     echo "$port"
 }
 
-port="$(getPortRandom 18000 20000)" # ポート番号の範囲を指定（18000〜20000）
+port="$(getPortRandom 18000 20000)" # ポート番号の範囲を指定（18000?20000）
+echo $port
 
-docker run --rm -it -p $port:$port   \
-     --mount type=bind,source="/var/local/projects/$1",target="/home/coder/project" \
-     --env PASSWORD="$1" \
-    alpine/codeserver code-server --auth=password --bind-addr=0.0.0.0:$port 
+docker run -it -p $port:$port   \
+     --mount type=bind,source="/var/local/projects/$user",target="/home/coder/project" \
+     --env PASSWORD="$user" \
+    alpine/codeserver code-server --auth=password --bind-addr=0.0.0.0:$port
