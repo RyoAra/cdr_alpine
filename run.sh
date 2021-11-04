@@ -4,6 +4,7 @@ user=$1
 echo $user
 mkdir ./projects/$user
 
+# ポート取得の参考:https://qiita.com/KEINOS/items/98a5ce4415b3691a0d22
 function getPortUsed() {
     # この取得処理が一番重いので変数に入れて使い回すために用意
     echo `lsof -i -P | grep -i "tcp" | sed 's/\[.*\]/IP/' \
